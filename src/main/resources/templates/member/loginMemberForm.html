@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LoginForm</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../../static/css/signin.css"
+          th:href="@{/css/signin.css}" rel="stylesheet"/>
+    <link href="../../static/css/headers.css"
+          th:href="@{/css/headers.css}" rel="stylesheet"/>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+         .field-error {
+             border-color: #dc3545;
+             color: #dc3545;
+        }
+
+    </style>
+</head>
+<body class="text-center">
+
+<main class="form-signin">
+    <form th:action th:object="${member}" method="post">
+        <h1 class="h3 mb-3 fw-normal">Login</h1>
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+               th:text="${err}">전체 오류 메시지</p>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="loginId" th:field="*{loginId}" placeholder="Id"
+                th:errorclass="field-error">
+            <label for="loginId">Id</label>
+            <div class="field-error" th:errors="*{loginId}" />
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Password"
+                th:errorclass="field-error">
+            <label for="password">Password</label>
+            <div class="field-error" th:errors="*{password}" />
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+    </form>
+</main>
+</body>
+</html>
