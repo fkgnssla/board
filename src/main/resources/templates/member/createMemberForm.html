@@ -26,26 +26,34 @@
                 font-size: 3.5rem;
             }
         }
+
+        .field-error {
+             border-color: #dc3545;
+             color: #dc3545;
+        }
     </style>
 
-    <!-- Custom styles for this template -->
 </head>
 <body class="text-center">
 
 <main class="form-signin">
-    <form th:action method="post">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <form th:action th:object="${member}" method="post">
+        <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
         <div class="form-floating">
-            <input type="text" class="form-control" id="loginId" name="loginId" placeholder="Id">
+            <input type="text" class="form-control" id="loginId" th:field="*{loginId}" placeholder="Id"
+                th:errorclass="field-error">
             <label for="loginId">Id</label>
+            <div class="field-error" th:errors="*{loginId}" />
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Password"
+                th:errorclass="field-error">
             <label for="password">Password</label>
+            <div class="field-error" th:errors="*{password}" />
         </div>
         <div class="form-floating">
-            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+            <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="name@example.com">
             <label for="email">Email address</label>
         </div>
         <div class="checkbox mb-3">

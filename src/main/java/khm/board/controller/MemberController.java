@@ -9,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,6 +35,7 @@ public class MemberController {
             return "member/loginMemberForm";
         }
 
+        //로그인 처리
         Member loginMember = loginService.login(member.getLoginId(), member.getPassword());
         if(loginMember==null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
@@ -49,13 +48,25 @@ public class MemberController {
     }
 
     @GetMapping("/create")
-    public String createForm () {
+    public String createForm (@ModelAttribute Member member) {
         return "member/createMemberForm";
     }
 
     @PostMapping("/create")
-    public String create (@ModelAttribute Member member) {
+    public String create (@Validated @ModelAttribute Member member, BindingResult bindingResult,
+                          RedirectAttributes redirectAttributes) {
+        if(bindingResult.hasErrors()) {
+            return "member/createMemberForm";
+        }
         memberService.createMember(member);
+        redirectAttributes.addAttribute("memberId",member.getId());
+        return "redirect:/member/saved/{memberId}";
+    }
+
+    @GetMapping("/saved/{memberId}")
+    public String saved (Model model, @PathVariable Long memberId) {
+        Member findMember = memberService.findOne(memberId);
+        model.addAttribute("member",findMember);
         return "member/savedMemberForm";
     }
 }
