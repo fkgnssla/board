@@ -19,7 +19,7 @@ public class Member {
     private Long Id;
 
     @NotBlank
-    private String userId;
+    private String loginId;
 
     @NotBlank
     private String password;
@@ -30,8 +30,8 @@ public class Member {
     private List<Board> boards = new ArrayList<>();
 
     @Builder
-    public Member(String userId, String password, String email) {
-        this.userId = userId;
+    public Member(String loginId, String password, String email) {
+        this.loginId = loginId;
         this.password = password;
         this.email = email;
     }
@@ -39,7 +39,7 @@ public class Member {
     protected Member() {}
 
     public void change(Member member) {
-        this.userId = member.getUserId();
+        this.loginId = member.getLoginId();
         this.password = member.getPassword();
         this.email = member.getEmail();
     }
