@@ -17,9 +17,12 @@ import java.util.NoSuchElementException;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public void createMember(Member member) {
-        validateDuplicateMember(member);
-        memberRepository.save(member);
+    public Member createMember(Member member) {
+        if(!validateDuplicateMember(member)) {
+            memberRepository.save(member);
+            return member;
+        }
+        return null;
     }
 
     public void deleteMember(Long memberId) {
@@ -45,10 +48,11 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public void validateDuplicateMember(Member member) {
+    public boolean validateDuplicateMember(Member member) {
         Member findMember = memberRepository.findByLoginId(member.getLoginId());
         if(findMember!=null) {
-            throw new IllegalStateException("이미 존재하는 아이디입니다.");
+            return true;
         }
+        return false;
     }
 }

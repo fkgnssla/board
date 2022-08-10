@@ -58,7 +58,13 @@ public class MemberController {
         if(bindingResult.hasErrors()) {
             return "member/createMemberForm";
         }
-        memberService.createMember(member);
+
+        Member newMember = memberService.createMember(member);
+        if(newMember==null) {//중복된 ID일 경우
+            bindingResult.reject("duplicateID","해당 아이디가 이미 존재합니다.");
+            return "member/createMemberForm";
+        }
+
         redirectAttributes.addAttribute("memberId",member.getId());
         return "redirect:/member/saved/{memberId}";
     }

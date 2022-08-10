@@ -40,6 +40,10 @@
     <form th:action th:object="${member}" method="post">
         <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+               th:text="${err}">전체 오류 메시지</p>
+        </div>
         <div class="form-floating">
             <input type="text" class="form-control" id="loginId" th:field="*{loginId}" placeholder="Id"
                 th:errorclass="field-error">
