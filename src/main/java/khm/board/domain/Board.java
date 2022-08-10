@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-public class Board {
+public class Board extends BaseTimeEntity{
 
     @Id
     @GeneratedValue
@@ -18,8 +18,6 @@ public class Board {
     private String title;
 
     private String content;
-
-    private LocalDateTime createdDate;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "member_id")
