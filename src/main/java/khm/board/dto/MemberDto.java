@@ -1,6 +1,5 @@
 package khm.board.dto;
 
-import khm.board.domain.Board;
 import khm.board.domain.Member;
 import lombok.Builder;
 import lombok.Data;

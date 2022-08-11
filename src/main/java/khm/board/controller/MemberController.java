@@ -49,6 +49,15 @@ public class MemberController {
         return "redirect:/"; //일단 홈으로 이동하게 설정
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
+    }
+
     @GetMapping("/create")
     public String createForm (@ModelAttribute MemberDto memberDto) {
         return "member/createMemberForm";
