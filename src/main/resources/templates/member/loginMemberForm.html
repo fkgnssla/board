@@ -36,7 +36,7 @@
 <body class="text-center">
 
 <main class="form-signin">
-    <form th:action th:object="${member}" method="post">
+    <form th:action th:object="${memberDto}" method="post">
         <h1 class="h3 mb-3 fw-normal">Login</h1>
 
         <div th:if="${#fields.hasGlobalErrors()}">
