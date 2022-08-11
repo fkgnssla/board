@@ -30,9 +30,9 @@
 </head>
 <body>
 <div class="container">
-
+    <form action="/member/edit" method="post">
     <div class="py-5 text-center">
-        <h2>회원가입 결과</h2>
+        <h2>회원정보 수정</h2>
     </div>
     <div>
         <label for="id">식별 ID</label>
@@ -40,15 +40,15 @@
     </div>
     <div>
         <label for="loginId">회원 아이디</label>
-        <input type="text" id="loginId" name="loginId" class="form-control" value="상품A" th:value="${memberDto.loginId}" readonly>
+        <input type="text" id="loginId" name="loginId" class="form-control" value="testId" th:value="${memberDto.loginId}" >
     </div>
     <div>
         <label for="password">비밀번호</label>
-        <input type="text" id="password" name="password" class="form-control" value="10000" th:value="${memberDto.password}" readonly>
+        <input type="text" id="password" name="password" class="form-control" value="testPw" th:value="${memberDto.password}" >
     </div>
     <div>
         <label for="email">이메일</label>
-        <input type="text" id="email" name="email" class="form-control" value="10" th:value="${memberDto.email}" readonly>
+        <input type="text" id="email" name="email" class="form-control" value="test@naver.com" th:value="${memberDto.email}" >
     </div>
 
     <hr class="my-4">
@@ -56,17 +56,15 @@
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
-                    th:onclick="|location.href='@{/member/edit/{memberId}(memberId=${memberDto.id})}'|"
-                    type="button">회원 정보 수정</button>
+                    type="submit">수정하기</button>
         </div>
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg"
-                    th:onclick="|location.href='@{/index.html}'|"
-                    type="button">메인으로</button>
+                    th:onclick="|location.href='@{/member/saved/{memberId}(memberId=${memberDto.id})}'|"
+                    type="button">뒤로가기</button>
         </div>
     </div>
-
-</div> <!-- /container -->
+    </form>
 </div>
 </body>
 </html>

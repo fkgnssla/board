@@ -6,6 +6,7 @@ import khm.board.dto.MemberDto;
 import khm.board.service.LoginService;
 import khm.board.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -85,5 +87,23 @@ public class MemberController {
         Member findMember = memberService.findOne(memberId);
         model.addAttribute("memberDto",new MemberDto(findMember));
         return "member/savedMemberForm";
+    }
+
+    @GetMapping("/edit/{memberId}")
+    public String editForm(Model model, @PathVariable Long memberId) {
+        Member findMember = memberService.findOne(memberId);
+        model.addAttribute("memberDto",new MemberDto(findMember));
+        return "member/editMemberForm";
+    }
+
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute MemberDto memberDto, RedirectAttributes redirectAttributes) {
+        log.info(memberDto.toString());
+        Member member = memberDto.toEntity();
+        member.setId(memberDto.getId());
+        memberService.updateMember(member);
+
+        redirectAttributes.addAttribute("memberId",memberDto.getId());
+        return "redirect:/member/saved/{memberId}";
     }
 }
