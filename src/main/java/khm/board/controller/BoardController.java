@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,10 +47,33 @@ public class BoardController {
     }
 
     @GetMapping("/boardContent/{boardId}")
-    public String content(@PathVariable Long boardId, Model model) {
+    public String content(@PathVariable Long boardId, Model model,
+                          @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto) {
         Board board = boardService.countVisitIncrease(boardId);
+        String mine = boardService.myContent(memberDto.getId(), board.getMember().getId());
+        BoardDto boardDto = new BoardDto(board);
+
+        model.addAttribute("boardDto", boardDto);
+        model.addAttribute("mine", mine);
+        return "board/boardContent";
+    }
+
+    @GetMapping("/edit/{boardId}")
+    public String editForm(@PathVariable Long boardId, Model model) {
+        Board board = boardService.findOne(boardId);
         BoardDto boardDto = new BoardDto(board);
         model.addAttribute("boardDto", boardDto);
-        return "board/boardContent";
+        return "board/editBoardForm";
+    }
+
+    @PostMapping("/edit/{boardId}")
+    public String edit(@PathVariable Long boardId, @ModelAttribute BoardDto boardDto,
+                       RedirectAttributes redirectAttributes) {
+        Board board = boardService.findOne(boardId);
+        board.change(boardDto);
+        boardService.updateBoard(board);
+
+        redirectAttributes.addAttribute("boardId",board.getId());
+        return "redirect:/board/boardContent/{boardId}";
     }
 }

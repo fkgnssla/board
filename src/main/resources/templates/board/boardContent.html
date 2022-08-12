@@ -46,6 +46,11 @@
 <div class="container" style="margin-top:30px">
     <div class="row">
         <div class="col-sm-12">
+            <div th:if="${mine.equals('true')}">
+                <a th:href="@{'/board/edit/' + ${boardDto.id}}">
+                    <button>수정</button>
+                </a>
+            </div>
             <div class="form-group">
                 <h5 th:text="'제목 : ' + ${boardDto.title}"></h5>
             </div>

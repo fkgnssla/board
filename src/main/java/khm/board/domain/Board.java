@@ -1,5 +1,6 @@
 package khm.board.domain;
 
+import khm.board.dto.BoardDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,5 +44,10 @@ public class Board extends BaseTimeEntity{
 
     public void countVisitIncrease() {
         this.countVisit++;
+    }
+
+    public  void change(BoardDto boardDto) {
+        this.title = boardDto.getTitle();
+        this.content = boardDto.getContent();
     }
 }
