@@ -9,11 +9,8 @@ import khm.board.service.BoardService;
 import khm.board.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,5 +43,13 @@ public class BoardController {
     public String boardList(Model model) {
         model.addAttribute("boards", boardService.findAll());
         return "/board/boardList";
+    }
+
+    @GetMapping("/boardContent/{boardId}")
+    public String content(@PathVariable Long boardId, Model model) {
+        Board board = boardService.countVisitIncrease(boardId);
+        BoardDto boardDto = new BoardDto(board);
+        model.addAttribute("boardDto", boardDto);
+        return "board/boardContent";
     }
 }

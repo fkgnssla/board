@@ -22,4 +22,16 @@ public class BoardService {
     public List<Board> findAll() {
         return boardRepository.findAll();
     }
+
+    public Board findOne(Long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(
+                ()->{throw new IllegalArgumentException("찾는 게시물이 존재하지 않습니다.");}
+        );
+    }
+
+    public Board countVisitIncrease(Long boardId) {
+        Board board = findOne(boardId);
+        board.countVisitIncrease();
+        return board;
+    }
 }

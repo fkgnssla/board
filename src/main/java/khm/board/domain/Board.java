@@ -40,4 +40,8 @@ public class Board extends BaseTimeEntity{
         loginMember.getBoards().add(this);
        //this.setCreatedBy(loginMember.getLoginId());
     }
+
+    public void countVisitIncrease() {
+        this.countVisit++;
+    }
 }
