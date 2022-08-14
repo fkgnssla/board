@@ -4,10 +4,10 @@ import khm.board.dto.BoardDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -25,6 +25,9 @@ public class Board extends BaseTimeEntity{
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "board", fetch=FetchType.LAZY)
+    List<BoardComment> boardComments = new ArrayList<>();
 
     public  Board() {}
     @Builder

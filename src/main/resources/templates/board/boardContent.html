@@ -62,5 +62,31 @@
         </div>
     </div>
 </div>
+<form action="boardContent.html" th:action="@{'/board/comment/' + ${boardDto.id}}" method="post">
+    <div class="comment-form" style="text-align: center;">
+        <div class="comment-form2" style="width:300px;height: 200px;display: inline-block">
+            <label for="comment">댓글 달기</label>
+            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+            <button type="submit" class="btn btn-primary" onclick="window.location.reload()">작성</button>
+        </div>
+    </div>
+</form>
+<div class="container">
+    <table class="table table-hover">
+        <tr>
+            <th>번호</th>
+            <th>작성자</th>
+            <th>내용</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="boardComment : ${boardComments}">
+            <td th:text="${boardComment.id}"></td>
+            <td th:text="${boardComment.createdBy}"></td>
+            <td th:text="${boardComment.comment}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

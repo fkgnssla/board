@@ -2,9 +2,12 @@ package khm.board.controller;
 
 import khm.board.SessionConst;
 import khm.board.domain.Board;
+import khm.board.domain.BoardComment;
 import khm.board.domain.Member;
+import khm.board.dto.BoardCommentDto;
 import khm.board.dto.BoardDto;
 import khm.board.dto.MemberDto;
+import khm.board.service.BoardCommentService;
 import khm.board.service.BoardService;
 import khm.board.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +16,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
     private final MemberService memberService;
+    private final BoardCommentService boardCommentService;
 
     @GetMapping("/create")
     public String createBoard() {
@@ -53,6 +60,9 @@ public class BoardController {
         String mine = boardService.myContent(memberDto.getId(), board.getMember().getId());
         BoardDto boardDto = new BoardDto(board);
 
+        List<BoardComment> boardComments = boardCommentService.findAll();
+        model.addAttribute("boardComments", boardComments);
+
         model.addAttribute("boardDto", boardDto);
         model.addAttribute("mine", mine);
         return "board/boardContent";
@@ -74,6 +84,23 @@ public class BoardController {
         boardService.updateBoard(board);
 
         redirectAttributes.addAttribute("boardId",board.getId());
+        return "redirect:/board/boardContent/{boardId}";
+    }
+
+    @PostMapping("/comment/{boardId}")
+    public String addcomment(@PathVariable Long boardId, @ModelAttribute BoardCommentDto boardCommentDto,
+            @SessionAttribute(name=SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto, RedirectAttributes redirectAttributes) {
+
+        boardCommentDto.setCreatedDate(LocalDateTime.now());
+        boardCommentDto.setCreatedBy(memberDto.getLoginId());
+        boardCommentDto.setBoard(boardService.findOne(boardId));
+        boardCommentDto.setMember(memberService.findOne(memberDto.getId()));
+
+        BoardComment boardComment = boardCommentDto.toEntity();
+        boardCommentService.save(boardComment);
+
+        redirectAttributes.addAttribute("boardId", boardId);
+
         return "redirect:/board/boardContent/{boardId}";
     }
 }
