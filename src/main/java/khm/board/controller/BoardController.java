@@ -60,7 +60,7 @@ public class BoardController {
         String mine = boardService.myContent(memberDto.getId(), board.getMember().getId());
         BoardDto boardDto = new BoardDto(board);
 
-        List<BoardComment> boardComments = boardCommentService.findAll();
+        List<BoardComment> boardComments = boardCommentService.findAll(boardId);
         model.addAttribute("boardComments", boardComments);
 
         model.addAttribute("boardDto", boardDto);

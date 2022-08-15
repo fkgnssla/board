@@ -19,7 +19,7 @@ public class BoardCommentService {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardComment> findAll() {
-        return boardCommentRepository.findAll();
+    public List<BoardComment> findAll(Long BoardId) {
+        return boardCommentRepository.findByBoardId(BoardId);
     }
 }
