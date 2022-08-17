@@ -41,7 +41,7 @@ public class BoardController {
     public String create(@ModelAttribute BoardDto boardDto,
                          @SessionAttribute(name=SessionConst.LOGIN_MEMBER, required = false) MemberDto loginMemberDto) {
         Board board = boardDto.toEntitiy();
-        board.setCountVisit(1L);
+        board.setCountVisit(0L);
         board.setCreatedBy(loginMemberDto.getLoginId());
 
         Member findMember = memberService.findOne(loginMemberDto.getId());
@@ -72,10 +72,18 @@ public class BoardController {
         return "/board/boardList";
     }
 
-    @GetMapping("/boardContent/{boardId}")
+    @GetMapping("/visit/{boardId}")
+    public String visit(@PathVariable Long boardId, RedirectAttributes redirectAttributes) {
+        boardService.countVisitIncrease(boardId);
+        redirectAttributes.addAttribute("boardId", boardId);
+
+        return "redirect:/board/content/{boardId}";
+    }
+
+    @GetMapping("/content/{boardId}")
     public String content(@PathVariable Long boardId, Model model,
                           @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto) {
-        Board board = boardService.countVisitIncrease(boardId);
+        Board board = boardService.findOne(boardId);
         String mine = boardService.myContent(memberDto.getId(), board.getMember().getId());
         BoardDto boardDto = new BoardDto(board);
 
@@ -86,6 +94,7 @@ public class BoardController {
         model.addAttribute("mine", mine);
         return "board/boardContent";
     }
+
 
     @GetMapping("/edit/{boardId}")
     public String editForm(@PathVariable Long boardId, Model model) {
@@ -120,6 +129,6 @@ public class BoardController {
 
         redirectAttributes.addAttribute("boardId", boardId);
 
-        return "redirect:/board/boardContent/{boardId}";
+        return "redirect:/board/content/{boardId}";
     }
 }

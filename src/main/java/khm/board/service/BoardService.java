@@ -32,11 +32,11 @@ public class BoardService {
                 ()->{throw new IllegalArgumentException("찾는 게시물이 존재하지 않습니다.");}
         );
     }
-    @Transactional(readOnly = true)
-    public Board countVisitIncrease(Long boardId) {
+
+    public void countVisitIncrease(Long boardId) {
         Board board = findOne(boardId);
         board.countVisitIncrease();
-        return board;
+        return;
     }
 
     public String myContent(Long id1, Long id2) {

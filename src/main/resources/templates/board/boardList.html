@@ -86,7 +86,7 @@
         </thead>
         <tbody>
         <tr th:each="board : ${boards}">
-            <td><a th:href="@{'/board/boardContent/' + ${board.id}}"><span th:text="${board.id}"></span></a></td>
+            <td><a th:href="@{'/board/visit/' + ${board.id}}"><span th:text="${board.id}"></span></a></td>
             <td th:text="${board.title}"></td>
             <td th:text="${board.createdBy}"></td>
             <td th:text="${board.createdDate}"></td>
