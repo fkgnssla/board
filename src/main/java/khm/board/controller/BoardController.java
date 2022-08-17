@@ -11,6 +11,10 @@ import khm.board.service.BoardCommentService;
 import khm.board.service.BoardService;
 import khm.board.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +26,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/board")
+@Slf4j
 public class BoardController {
     private final BoardService boardService;
     private final MemberService memberService;
@@ -48,8 +53,22 @@ public class BoardController {
     }
 
     @GetMapping("/boardList")
-    public String boardList(Model model) {
-        model.addAttribute("boards", boardService.findAll());
+    public String boardList(Model model,
+                           @PageableDefault(page=0, size=10) Pageable pageable) {
+        Page<Board> boards = boardService.findAll(pageable);
+
+        int nowPage = boards.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(1, nowPage - 4);
+        int endPage;
+        if(boards.getTotalPages()==0) endPage = Math.min(nowPage + 5, boards.getTotalPages()+1);
+        else endPage = Math.min(nowPage + 5, boards.getTotalPages());
+
+        log.info(nowPage + " " + startPage + " " + endPage);
+        model.addAttribute("boards", boards);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
         return "/board/boardList";
     }
 

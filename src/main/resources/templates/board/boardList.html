@@ -110,11 +110,26 @@
         </nav>
     </div>-->
 
+<!--    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">-->
+<!--        <a th:if="${page != nowPage}" th:href="@{/board/boardList(page=${page-1})}" th:text="${page}"></a>-->
+<!--        <strong th:if="${page == nowPage}" th:text="${page}" style="color:red"></strong>-->
+<!--    </th:block>-->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="pagination">
+<!--                    <li class="page-item"><a class="page-link" th:href="@{/board/boardList(page=${nowPage-1})}">Previous</a></li>-->
+                    <li class="page-item" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <a class="page-link" th:if="${page != nowPage}" th:href="@{/board/boardList(page=${page-1})}" th:text="${page}"></a>
+                        <a class="page-link" th:if="${page == nowPage}" th:text="${page}"></a>
+                    </li>
+<!--                    <li class="page-item"><a class="page-link" th:href="@{/board/boardList(page=${nowPage+1})}">Next</a></li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-<div  class="text-center">
-    <ul class="pagination">
-
-    </ul>
-</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 </body>
 </html>
