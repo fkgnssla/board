@@ -112,7 +112,7 @@ public class BoardController {
         boardService.updateBoard(board);
 
         redirectAttributes.addAttribute("boardId",board.getId());
-        return "redirect:/board/boardContent/{boardId}";
+        return "redirect:/board/content/{boardId}";
     }
 
     @PostMapping("/comment/{boardId}")
