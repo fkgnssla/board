@@ -67,8 +67,7 @@
 <div class="container">
     <table class="table table-hover">
         <h3>게시판</h3>
-        <!--th:value="${param.searchText}"-->
-        <form class="form-inline d-flex justify-content-end" method="GET", th:action="@{/board/boardList}" >
+        <form class="form-inline d-flex justify-content-end" method="GET", th:action="@{/board/boardList}" th:value="${param.searchText}" >
             <div class="form-group mx-sm-3 mb-2 pull-right">
                 <label for="searchText" class="sr-only">검색</label>
                 <input type="text" class="form-control" id="searchText" name="searchText">

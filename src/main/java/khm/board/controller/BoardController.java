@@ -53,9 +53,10 @@ public class BoardController {
     }
 
     @GetMapping("/boardList")
-    public String boardList(Model model,
-                           @PageableDefault(page=0, size=10) Pageable pageable) {
-        Page<Board> boards = boardService.findAll(pageable);
+    public String boardList(Model model, @PageableDefault(page=0, size=10) Pageable pageable,
+                           @RequestParam(required = false, defaultValue = "")String searchText) {
+
+        Page<Board> boards = boardService.findAll(searchText, searchText, pageable);
 
         int nowPage = boards.getPageable().getPageNumber() + 1;
         int startPage = Math.max(1, nowPage - 4);

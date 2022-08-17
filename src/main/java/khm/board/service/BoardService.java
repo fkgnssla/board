@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -22,8 +20,11 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Board> findAll(Pageable pageable) {
-        return boardRepository.findAll(pageable);
+    public Page<Board> findAll(String title, String content, Pageable pageable) {
+        if(title.equals("")) return boardRepository.findAll(pageable);
+        else {
+            return boardRepository.findByTitleContainingOrContentContaining(title, content, pageable);
+        }
     }
 
     @Transactional(readOnly = true)
