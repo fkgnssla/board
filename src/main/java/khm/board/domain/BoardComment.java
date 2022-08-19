@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 public class BoardComment {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "boardComment_id")
     private Long id;
 
     private String comment;
