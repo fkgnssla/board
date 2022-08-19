@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
+    Page<Board> findByMemberId(Long memberId, Pageable pageable);
 }

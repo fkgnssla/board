@@ -54,9 +54,15 @@ public class BoardController {
 
     @GetMapping("/boardList")
     public String boardList(Model model, @PageableDefault(page=0, size=10) Pageable pageable,
-                           @RequestParam(required = false, defaultValue = "")String searchText) {
-
-        Page<Board> boards = boardService.findAll(searchText, searchText, pageable);
+                           @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto,
+                           @RequestParam(required = false, defaultValue = "")String searchText,
+                           @RequestParam(required = false) String my ) {
+        Page<Board> boards;
+        if(my!=null) {
+            boards = boardService.findByMemberId(memberDto.getId(), pageable);
+        }else {
+            boards = boardService.findAll(searchText, searchText, pageable);
+        }
 
         int nowPage = boards.getPageable().getPageNumber() + 1;
         int startPage = Math.max(1, nowPage - 4);

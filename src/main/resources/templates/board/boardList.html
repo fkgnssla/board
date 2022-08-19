@@ -54,7 +54,7 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">게시판</a></li>
+            <li><a href="/board/boardList" class="nav-link px-2 link-dark">게시판</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
         </ul>
 
@@ -72,6 +72,9 @@
                 <label for="searchText" class="sr-only">검색</label>
                 <input type="text" class="form-control" id="searchText" name="searchText">
                 <button type="submit" class="btn btn-primary mb-2">검색 </button>
+                <a href="/board/boardList?my=true">
+                    <button type="button" class="btn btn-primary mb-2">내가 쓴 글 보기 </button>
+                </a>
             </div>
         </form>
         <thead>

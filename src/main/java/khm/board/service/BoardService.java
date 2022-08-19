@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -32,6 +34,10 @@ public class BoardService {
         return boardRepository.findById(boardId).orElseThrow(
                 ()->{throw new IllegalArgumentException("찾는 게시물이 존재하지 않습니다.");}
         );
+    }
+
+    public Page<Board> findByMemberId(Long memberId, Pageable pageable) {
+        return boardRepository.findByMemberId(memberId, pageable);
     }
 
     public void countVisitIncrease(Long boardId) {
