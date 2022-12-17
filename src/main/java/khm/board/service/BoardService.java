@@ -52,7 +52,8 @@ public class BoardService {
     }
 
     public void updateBoard(Board board) {
-        Board findBoard = findOne(board.getId());
-        findBoard.change(new BoardDto(board));
+//        Board findBoard = findOne(board.getId());
+//        findBoard.change(new BoardDto(board));
+        boardRepository.save(board); //PK가 같으므로 insert가 아닌 update가 일어난다.
     }
 }
